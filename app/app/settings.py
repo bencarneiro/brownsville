@@ -72,6 +72,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 STATICFILES_DIRS = [
     "/Users/root1/apps/brownsville/app/brownsville/templates/static",
+    "/root/brownsville/app/brownsville/templates/static",
     "templates"
 ]
 
