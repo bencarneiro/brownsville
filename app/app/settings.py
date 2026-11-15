@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definitions
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "brownsville"
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+STATICFILES_DIRS = [
+    "/Users/root1/apps/brownsville/app/brownsville/templates/static",
+    "templates"
+]
 
+STATIC_ROOT = "/var/www/static"
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
