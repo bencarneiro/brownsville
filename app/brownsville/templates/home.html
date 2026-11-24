@@ -188,6 +188,366 @@
                     land throughout the Rio Grande Valley.
                 </p>
 
+                <div class="w-8 h-px bg-outline-variant/40 my-1"></div>
+
+                <!-- Residential Real Estate Section -->
+                <section class="flex flex-col items-center gap-6 w-full">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
+                            Active Portfolio
+                        </span>
+                        <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface" >
+                            Homes For Sale
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-col gap-6 w-full">
+                        {% for listing in residential %}
+                            {% if forloop.first %}
+                            <!-- First Residential Listing (Always Displayed) -->
+                            <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
+                                {% with first_photo=listing.listingphoto_set.first %}
+                                {% if first_photo and first_photo.slug %}           
+                                <img
+                                    src="/static/{{ first_photo.slug }}"
+                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                                />
+                                {% endif %}
+                                {% endwith %}
+
+                                <div class="p-5 flex flex-col gap-3">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary">
+                                            {{ listing.property_type|default:"Property" }} • MLS #{{ listing.mls_number }}
+                                        </span>
+                                        {% if listing.list_price %}
+                                        <span class="font-headline-sm text-headline-sm text-on-surface">
+                                            ${{ listing.list_price|floatformat:0 }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-headline-md text-headline-md text-on-surface">
+                                            {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
+                                        </h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1 pt-2 border-t border-outline-variant/30 font-label-md text-label-md uppercase text-on-surface-variant">
+                                        {% if listing.bedrooms %}
+                                        <span>{{ listing.bedrooms }} Beds</span>
+                                        {% endif %}
+                                        {% if listing.baths %}
+                                        <span>{{ listing.baths|floatformat:"-1" }} Baths</span>
+                                        {% endif %}
+                                        {% if listing.estimated_living_sqft %}
+                                        <span>{{ listing.estimated_living_sqft }} SqFt</span>
+                                        {% endif %}
+                                        {% if listing.apx_acreage %}
+                                        <span>{{ listing.apx_acreage|floatformat:"-2" }} Acres</span>
+                                        {% endif %}
+                                        {% if listing.year_built %}
+                                        <span>Built {{ listing.year_built }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if listing.agent or listing.virtual_tour_video %}
+                                    <div class="pt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2 text-body-sm">
+                                        {% if listing.agent %}
+                                        <div class="flex flex-col">
+                                            <span class="font-label-sm text-label-sm uppercase text-on-surface-variant/70">Listed By</span>
+                                            <a href="tel:{{ listing.agent.phone }}" class="font-medium text-on-surface hover:text-secondary transition-colors">
+                                                {{ listing.agent.name }} {% if listing.agent.phone %}• {{ listing.agent.phone }}{% endif %}
+                                            </a>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if listing.virtual_tour_video %}
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+
+                            {% if residential|length > 1 %}
+                            <!-- Collapsible Wrapper for Remaining Residential Listings -->
+                            <div id="residential-more" class="hidden flex-col gap-6 w-full">
+                            {% endif %}
+                            {% else %}
+                            <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
+                                {% with first_photo=listing.listingphoto_set.first %}
+                                {% if first_photo and first_photo.slug %}           
+                                <img
+                                    src="/static/{{ first_photo.slug }}"
+                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                                />
+                                {% endif %}
+                                {% endwith %}
+
+                                <div class="p-5 flex flex-col gap-3">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary">
+                                            {{ listing.property_type|default:"Property" }} • MLS #{{ listing.mls_number }}
+                                        </span>
+                                        {% if listing.list_price %}
+                                        <span class="font-headline-sm text-headline-sm text-on-surface">
+                                            ${{ listing.list_price|floatformat:0 }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-headline-md text-headline-md text-on-surface">
+                                            {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
+                                        </h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1 pt-2 border-t border-outline-variant/30 font-label-md text-label-md uppercase text-on-surface-variant">
+                                        {% if listing.bedrooms %}
+                                        <span>{{ listing.bedrooms }} Beds</span>
+                                        {% endif %}
+                                        {% if listing.baths %}
+                                        <span>{{ listing.baths|floatformat:"-1" }} Baths</span>
+                                        {% endif %}
+                                        {% if listing.estimated_living_sqft %}
+                                        <span>{{ listing.estimated_living_sqft }} SqFt</span>
+                                        {% endif %}
+                                        {% if listing.apx_acreage %}
+                                        <span>{{ listing.apx_acreage|floatformat:"-2" }} Acres</span>
+                                        {% endif %}
+                                        {% if listing.year_built %}
+                                        <span>Built {{ listing.year_built }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if listing.agent or listing.virtual_tour_video %}
+                                    <div class="pt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2 text-body-sm">
+                                        {% if listing.agent %}
+                                        <div class="flex flex-col">
+                                            <span class="font-label-sm text-label-sm uppercase text-on-surface-variant/70">Listed By</span>
+                                            <a href="tel:{{ listing.agent.phone }}" class="font-medium text-on-surface hover:text-secondary transition-colors">
+                                                {{ listing.agent.name }} {% if listing.agent.phone %}• {{ listing.agent.phone }}{% endif %}
+                                            </a>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if listing.virtual_tour_video %}
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+                            {% endif %}
+
+                            {% if forloop.last and residential|length > 1 %}
+                            </div>
+                            <button
+                                type="button"
+                                onclick="toggleSection('residential-more', 'residential-toggle-label', 'residential-toggle-icon', {{ residential|length }})"
+                                class="w-full py-3 px-4 rounded-lg border border-outline-variant/60 bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md uppercase tracking-[0.14em] flex items-center justify-center gap-2 transition-colors"
+                            >
+                                <span id="residential-toggle-label">View All {{ residential|length }} Residential Listings</span>
+                                <span id="residential-toggle-icon" class="material-symbols-outlined text-[18px] transition-transform duration-200">expand_more</span>
+                            </button>
+                            {% endif %}
+                        {% empty %}
+                        <p class="font-body-md text-body-md text-on-surface-variant">
+                            No active residential listings available at this time.
+                        </p>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <div class="w-8 h-px bg-outline-variant/40 my-1"></div>
+
+                <!-- Commercial Real Estate Section -->
+                <section class="flex flex-col items-center gap-6 w-full">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
+                            Active Portfolio
+                        </span>
+                        <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface">
+                            Commercial Real Estate
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-col gap-6 w-full">
+                        {% for listing in commercial %}
+                            {% if forloop.first %}
+                            <!-- First Commercial Listing (Always Displayed) -->
+                            <article 
+                                    onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
+                                {% with first_photo=listing.listingphoto_set.first %}
+                                {% if first_photo and first_photo.slug %}           
+                                <img
+                                    src="/static/{{ first_photo.slug }}"
+                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                />
+                                {% endif %}
+                                {% endwith %}
+
+                                <div class="p-5 flex flex-col gap-3">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary">
+                                            {{ listing.property_type|default:"Property" }} • MLS #{{ listing.mls_number }}
+                                        </span>
+                                        {% if listing.list_price %}
+                                        <span class="font-headline-sm text-headline-sm text-on-surface">
+                                            ${{ listing.list_price|floatformat:0 }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-headline-md text-headline-md text-on-surface">
+                                            {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
+                                        </h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1 pt-2 border-t border-outline-variant/30 font-label-md text-label-md uppercase text-on-surface-variant">
+                                        {% if listing.bedrooms %}
+                                        <span>{{ listing.bedrooms }} Beds</span>
+                                        {% endif %}
+                                        {% if listing.baths %}
+                                        <span>{{ listing.baths|floatformat:"-1" }} Baths</span>
+                                        {% endif %}
+                                        {% if listing.estimated_living_sqft %}
+                                        <span>{{ listing.estimated_living_sqft }} SqFt</span>
+                                        {% endif %}
+                                        {% if listing.apx_acreage %}
+                                        <span>{{ listing.apx_acreage|floatformat:"-2" }} Acres</span>
+                                        {% endif %}
+                                        {% if listing.year_built %}
+                                        <span>Built {{ listing.year_built }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if listing.agent or listing.virtual_tour_video %}
+                                    <div class="pt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2 text-body-sm">
+                                        {% if listing.agent %}
+                                        <div class="flex flex-col">
+                                            <span class="font-label-sm text-label-sm uppercase text-on-surface-variant/70">Listed By</span>
+                                            <a href="tel:{{ listing.agent.phone }}" class="font-medium text-on-surface hover:text-secondary transition-colors">
+                                                {{ listing.agent.name }} {% if listing.agent.phone %}• {{ listing.agent.phone }}{% endif %}
+                                            </a>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if listing.virtual_tour_video %}
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+
+                            {% if commercial|length > 1 %}
+                            <!-- Collapsible Wrapper for Remaining Commercial Listings -->
+                            <div id="commercial-more" class="hidden flex-col gap-6 w-full">
+                            {% endif %}
+                            {% else %}
+                            <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
+                                {% with first_photo=listing.listingphoto_set.first %}
+                                {% if first_photo and first_photo.slug %}           
+                                <img
+                                    src="/static/{{ first_photo.slug }}"
+                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                                />
+                                {% endif %}
+                                {% endwith %}
+
+                                <div class="p-5 flex flex-col gap-3">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="font-label-sm text-label-sm uppercase tracking-[0.18em] text-secondary">
+                                            {{ listing.property_type|default:"Property" }} • MLS #{{ listing.mls_number }}
+                                        </span>
+                                        {% if listing.list_price %}
+                                        <span class="font-headline-sm text-headline-sm text-on-surface">
+                                            ${{ listing.list_price|floatformat:0 }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-headline-md text-headline-md text-on-surface">
+                                            {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
+                                        </h3>
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                        </p>
+                                    </div>
+
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1 pt-2 border-t border-outline-variant/30 font-label-md text-label-md uppercase text-on-surface-variant">
+                                        {% if listing.bedrooms %}
+                                        <span>{{ listing.bedrooms }} Beds</span>
+                                        {% endif %}
+                                        {% if listing.baths %}
+                                        <span>{{ listing.baths|floatformat:"-1" }} Baths</span>
+                                        {% endif %}
+                                        {% if listing.estimated_living_sqft %}
+                                        <span>{{ listing.estimated_living_sqft }} SqFt</span>
+                                        {% endif %}
+                                        {% if listing.apx_acreage %}
+                                        <span>{{ listing.apx_acreage|floatformat:"-2" }} Acres</span>
+                                        {% endif %}
+                                        {% if listing.year_built %}
+                                        <span>Built {{ listing.year_built }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if listing.agent or listing.virtual_tour_video %}
+                                    <div class="pt-3 border-t border-outline-variant/30 flex items-center justify-between gap-2 text-body-sm">
+                                        {% if listing.agent %}
+                                        <div class="flex flex-col">
+                                            <span class="font-label-sm text-label-sm uppercase text-on-surface-variant/70">Listed By</span>
+                                            <a href="tel:{{ listing.agent.phone }}" class="font-medium text-on-surface hover:text-secondary transition-colors">
+                                                {{ listing.agent.name }} {% if listing.agent.phone %}• {{ listing.agent.phone }}{% endif %}
+                                            </a>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if listing.virtual_tour_video %}
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+                            {% endif %}
+
+                            {% if forloop.last and commercial|length > 1 %}
+                            </div>
+                            <button
+                                type="button"
+                                onclick="toggleSection('commercial-more', 'commercial-toggle-label', 'commercial-toggle-icon', {{ commercial|length }})"
+                                class="w-full py-3 px-4 rounded-lg border border-outline-variant/60 bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md uppercase tracking-[0.14em] flex items-center justify-center gap-2 transition-colors"
+                            >
+                                <span id="commercial-toggle-label">View All {{ commercial|length }} Commercial Listings</span>
+                                <span id="commercial-toggle-icon" class="material-symbols-outlined text-[18px] transition-transform duration-200">expand_more</span>
+                            </button>
+                            {% endif %}
+                        {% empty %}
+                        <p class="font-body-md text-body-md text-on-surface-variant">
+                            No active commercial listings available at this time.
+                        </p>
+                        {% endfor %}
+                    </div>
+                </section>
+
                 <section class="flex flex-col items-center gap-3 w-full">
                     <span class="font-label-sm text-label-lg uppercase tracking-[0.2em] text-on-surface-variant/80">
                         Meet the Team
@@ -239,17 +599,7 @@
                         </div>
                     </div>
                 </section>
-                <div class="w-8 h-px bg-outline-variant/40 my-1"></div>
 
-                <div class="flex flex-col items-center gap-3 w-full">
-                    <a
-                        class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface mt-1"
-                        href="https://www.usamls.net/harlingen/default.asp?content=agent_listings&menu_id=63750&this_format=0&sortby=2&sort_dir=desc&listing_off_id=534&listing_agt_id=554"
-                        >Homes For Sale</a
-                    >
-                    <img onclick="window.location.href='https://www.usamls.net/harlingen/default.asp?content=expanded&search_content=agent_listings&this_format=0&mls_number=29780665&page=2&sortby=2&sort_dir=desc&listing_off_id=534&listing_agt_id=554'"  src="/static/29780665_0.jpeg"/>
-                    <img onclick="window.location.href='https://www.usamls.net/harlingen/default.asp?content=expanded&this_format=0&page=2&sortby=2&listing_off_id=534&listing_agt_id=554&search_content=agent_listings&mls_number=29752452'" src="/static/29752452_0.jpeg"/>
-                </div>
                 <div class="flex flex-col items-center gap-2">
                     <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-on-surface-variant/80"
                         >Territory</span
@@ -267,5 +617,26 @@
                 </footer>
             </div>
         </main>
+
+        <script>
+            function toggleSection(containerId, labelId, iconId, totalCount) {
+                const container = document.getElementById(containerId);
+                const label = document.getElementById(labelId);
+                const icon = document.getElementById(iconId);
+                const sectionName = containerId.startsWith("residential") ? "Residential" : "Commercial";
+
+                if (container.classList.contains("hidden")) {
+                    container.classList.remove("hidden");
+                    container.classList.add("flex");
+                    label.textContent = `Show Less`;
+                    icon.classList.add("rotate-180");
+                } else {
+                    container.classList.add("hidden");
+                    container.classList.remove("flex");
+                    label.textContent = `View All ${totalCount} ${sectionName} Listings`;
+                    icon.classList.remove("rotate-180");
+                }
+            }
+        </script>
     </body>
 </html>
