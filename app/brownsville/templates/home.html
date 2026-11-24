@@ -170,11 +170,25 @@
         </style>
     </head>
     <body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen pt-safe pb-safe">
+         <nav id="top" class="sticky top-0 z-50 w-full bg-surface/95 backdrop-blur-sm border-b border-outline-variant/40">
+            <div class="max-w-xl mx-auto px-6 py-3 flex items-center justify-center gap-8">
+                <a href="#home" class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-on-surface-variant hover:text-secondary transition-colors">
+                    Home
+                </a>
+                <a href="#residential" class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-on-surface-variant hover:text-secondary transition-colors">
+                    Residential
+                </a>
+                <a href="#commercial" class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-on-surface-variant hover:text-secondary transition-colors">
+                    Commercial
+                </a>
+            </div>
+        </nav>
         <main class="flex flex-col relative w-full bg-surface min-h-screen">
             <div
                 class="flex flex-col items-center justify-center text-center w-full max-w-xl mx-auto px-6 py-16 gap-10 text-on-surface"
             >
-                <div class="flex flex-col items-center gap-3">
+           
+                <div id="home" class="scroll-mt-24 flex flex-col items-center gap-3">
                     <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary"
                         >Texas Stars Realty Group, LLC • Serving Brownsville & The RGV</span
                     >
@@ -246,7 +260,7 @@
                 <!-- Residential Real Estate Section -->
                 <section class="flex flex-col items-center gap-6 w-full">
                     <div class="flex flex-col items-center gap-2">
-                        <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface" >
+                        <h2 id="residential" class="scroll-mt-16 font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface" >
                             Homes For Sale
                         </h2>
                     </div>
@@ -421,7 +435,7 @@
                 <div class="w-8 h-px bg-outline-variant/40 my-1"></div>
 
                 <!-- Commercial Real Estate Section -->
-                <section class="flex flex-col items-center gap-6 w-full">
+                <section id="commercial"  class="scroll-mt-16  flex flex-col items-center gap-6 w-full">
                     <div class="flex flex-col items-center gap-2">
                         <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface">
                             Commercial Real Estate

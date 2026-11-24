@@ -1,4 +1,5 @@
 from django.db import models
+from urllib.parse import quote_plus
 
 class Agent(models.Model):
     name = models.CharField(max_length=255)
@@ -50,6 +51,7 @@ class Listing(models.Model):
     middle_school = models.CharField(max_length=150, blank=True, null=True)
     high_school = models.CharField(max_length=150, blank=True, null=True)
     virtual_tour_video = models.URLField(max_length=500, blank=True, null=True)
+    priority = models.PositiveIntegerField(null=True, blank=True)
     
     @property
     def highlight_photo(self):
@@ -57,7 +59,13 @@ class Listing(models.Model):
             self.listingphoto_set.filter(is_highlight=True).first()
             or self.listingphoto_set.first()
         )
-        
+
+    @property
+    def google_maps_url(self) -> str:
+        street = " ".join(filter(None, [self.street_number, self.street_name, self.street_type]))
+        address = ", ".join(filter(None, [street, self.city, "TX"]))
+        return f"https://www.google.com/maps/search/?api=1&query={quote_plus(address)}"
+
     def __str__(self):
         return f"MLS #{self.mls_number} - {self.street_number} {self.street_name}, {self.city}"
 

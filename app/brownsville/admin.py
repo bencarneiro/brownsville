@@ -15,7 +15,7 @@ class AgentAdmin(admin.ModelAdmin):
 
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ("mls_number", "street_number", "street_name", "city", "property_type", "list_price", "agent")
+    list_display = ("mls_number", "street_number", "street_name", "city", "property_type", "list_price", "agent", "priority")
     list_filter = ("property_type", "city", "agent")
     search_fields = ("mls_number", "street_name", "subdivision", "city")
     inlines = [ListingPhotoInline]

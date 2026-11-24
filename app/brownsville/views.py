@@ -5,10 +5,10 @@ from django.db.models import Q
 def home(request):
     residential = Listing.objects.exclude(
     Q(property_type__icontains="commercial") | Q(property_type__icontains="acreage")
-)
+).order_by("-priority")
     commercial = Listing.objects.filter(
     Q(property_type__icontains="commercial") | Q(property_type__icontains="acreage")
-)
+).order_by("-priority")
 
     return render(request, "home.html", { "residential": residential,"commercial": commercial})
 
