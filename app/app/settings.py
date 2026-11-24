@@ -24,9 +24,9 @@ SECRET_KEY = 'django-insecure-9r#$1@u5bu9770onse(%y2*6+8aw6kj^!g1ugwqa6w%&y&d%4e
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1:8000", "45.33.113.212", "buybrownsville.homes", "www.buybrownsville.homes"]
+ALLOWED_HOSTS = ["127.0.0.1", "45.33.113.212", "buybrownsville.homes", "www.buybrownsville.homes"]
 
 
 # Application definitions
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "brownsville"
+    "django.contrib.humanize",
+    "brownsville",
+    
 ]
 
 MIDDLEWARE = [

@@ -1,3 +1,4 @@
+{% load humanize %}
 <!doctype html>
 
 <html lang="en">
@@ -188,14 +189,63 @@
                     land throughout the Rio Grande Valley.
                 </p>
 
+                <section class="flex flex-col items-center gap-3 w-full">
+                    <span class="font-label-sm text-label-lg uppercase tracking-[0.2em] text-on-surface-variant/80">
+                        Meet the Team
+                    </span>
+                    
+                    <div class="grid grid-cols-2 gap-3 w-full">
+                        <div class="overflow-hidden rounded-lg border border-outline-variant/40">
+                            
+                            <img 
+                                src="/static/nic.jpg" 
+                                alt="Nicolas Rodriguez, Realtor, Commercial Real Estate & Land Specialist" 
+                                class="w-full aspect-[3/4] object-cover"
+                            />
+                            
+                            <div class="flex flex-col items-center gap-3 w-full"  style="padding:10px">
+                                <a
+                                    class="font-body-md text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                                    href="mailto:nic_rdz_01@hotmail.com"
+                                    >Nicolas Rodriguez</a
+                                > Commercial Real Estate &amp; Land Specialist
+                                <a
+                                    class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-secondary transition-colors duration-200"
+                                    href="tel:9565610377"
+                                    >(956) 561-0377</a
+                                >
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-hidden rounded-lg border border-outline-variant/40">
+                            
+                            <img 
+                                src="/static/luis.jpg" 
+                                alt="Luis Sanchez, Real Estate Sales Associate" 
+                                class="w-full aspect-[3/4] object-cover"
+                            />
+                            
+                            <div class="flex flex-col items-center gap-3 w-full"  style="padding:10px">
+                                <a
+                                    class="font-body-md text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors duration-200"
+                                    href="mailto:luis.r.sanchez215@gmail.com"
+                                    >Luis Sanchez</a
+                                > Real Estate Sales Associate
+                                <a
+                                    class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-secondary transition-colors duration-200"
+                                    href="tel:9562431036"
+                                    >(956) 243-1036</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <div class="w-8 h-px bg-outline-variant/40 my-1"></div>
 
                 <!-- Residential Real Estate Section -->
                 <section class="flex flex-col items-center gap-6 w-full">
                     <div class="flex flex-col items-center gap-2">
-                        <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
-                            Active Portfolio
-                        </span>
                         <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface" >
                             Homes For Sale
                         </h2>
@@ -206,16 +256,16 @@
                             {% if forloop.first %}
                             <!-- First Residential Listing (Always Displayed) -->
                             <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
-                                {% with first_photo=listing.listingphoto_set.first %}
-                                {% if first_photo and first_photo.slug %}           
-                                <img
-                                    src="/static/{{ first_photo.slug }}"
-                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
-                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
-                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
-                                />
-                                {% endif %}
-                                {% endwith %}
+                            {% with photo=listing.highlight_photo %}
+                            {% if photo and photo.slug %}
+                            <img
+                                src="/static/{{ photo.slug }}"
+                                alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                            />
+                            {% endif %}
+                            {% endwith %}
 
                                 <div class="p-5 flex flex-col gap-3">
                                     <div class="flex items-center justify-between gap-2">
@@ -224,7 +274,7 @@
                                         </span>
                                         {% if listing.list_price %}
                                         <span class="font-headline-sm text-headline-sm text-on-surface">
-                                            ${{ listing.list_price|floatformat:0 }}
+                                            ${{ listing.list_price|floatformat:0|intcomma }}
                                         </span>
                                         {% endif %}
                                     </div>
@@ -234,7 +284,7 @@
                                             {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
                                         </h3>
                                         <p class="font-body-sm text-body-sm text-on-surface-variant">
-                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                            {{ listing.city|default:"BROWNSVILLE" }}, TX
                                         </p>
                                     </div>
 
@@ -280,16 +330,16 @@
                             {% endif %}
                             {% else %}
                             <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
-                                {% with first_photo=listing.listingphoto_set.first %}
-                                {% if first_photo and first_photo.slug %}           
-                                <img
-                                    src="/static/{{ first_photo.slug }}"
-                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
-                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
-                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
-                                />
-                                {% endif %}
-                                {% endwith %}
+                            {% with photo=listing.highlight_photo %}
+                            {% if photo and photo.slug %}
+                            <img
+                                src="/static/{{ photo.slug }}"
+                                alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                            />
+                            {% endif %}
+                            {% endwith %}
 
                                 <div class="p-5 flex flex-col gap-3">
                                     <div class="flex items-center justify-between gap-2">
@@ -298,7 +348,7 @@
                                         </span>
                                         {% if listing.list_price %}
                                         <span class="font-headline-sm text-headline-sm text-on-surface">
-                                            ${{ listing.list_price|floatformat:0 }}
+                                            ${{ listing.list_price|floatformat:0|intcomma  }}
                                         </span>
                                         {% endif %}
                                     </div>
@@ -308,7 +358,7 @@
                                             {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
                                         </h3>
                                         <p class="font-body-sm text-body-sm text-on-surface-variant">
-                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                            {{ listing.city|default:"BROWNSVILLE" }}, TX
                                         </p>
                                     </div>
 
@@ -373,9 +423,6 @@
                 <!-- Commercial Real Estate Section -->
                 <section class="flex flex-col items-center gap-6 w-full">
                     <div class="flex flex-col items-center gap-2">
-                        <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
-                            Active Portfolio
-                        </span>
                         <h2 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface">
                             Commercial Real Estate
                         </h2>
@@ -387,15 +434,16 @@
                             <!-- First Commercial Listing (Always Displayed) -->
                             <article 
                                     onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
-                                {% with first_photo=listing.listingphoto_set.first %}
-                                {% if first_photo and first_photo.slug %}           
-                                <img
-                                    src="/static/{{ first_photo.slug }}"
-                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
-                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
-                                />
-                                {% endif %}
-                                {% endwith %}
+                            {% with photo=listing.highlight_photo %}
+                            {% if photo and photo.slug %}
+                            <img
+                                src="/static/{{ photo.slug }}"
+                                alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                            />
+                            {% endif %}
+                            {% endwith %}   
 
                                 <div class="p-5 flex flex-col gap-3">
                                     <div class="flex items-center justify-between gap-2">
@@ -404,7 +452,7 @@
                                         </span>
                                         {% if listing.list_price %}
                                         <span class="font-headline-sm text-headline-sm text-on-surface">
-                                            ${{ listing.list_price|floatformat:0 }}
+                                            ${{ listing.list_price|floatformat:0|intcomma }}
                                         </span>
                                         {% endif %}
                                     </div>
@@ -414,7 +462,7 @@
                                             {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
                                         </h3>
                                         <p class="font-body-sm text-body-sm text-on-surface-variant">
-                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                            {{ listing.city|default:"BROWNSVILLE" }}, TX
                                         </p>
                                     </div>
 
@@ -460,16 +508,16 @@
                             {% endif %}
                             {% else %}
                             <article onclick="window.location.href='/listing/{{listing.mls_number}}'" class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest text-left flex flex-col">
-                                {% with first_photo=listing.listingphoto_set.first %}
-                                {% if first_photo and first_photo.slug %}           
-                                <img
-                                    src="/static/{{ first_photo.slug }}"
-                                    alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
-                                    class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
-                                    onclick="window.location.href='/listing/{{listing.mls_number}}'"
-                                />
-                                {% endif %}
-                                {% endwith %}
+                            {% with photo=listing.highlight_photo %}
+                            {% if photo and photo.slug %}
+                            <img
+                                src="/static/{{ photo.slug }}"
+                                alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                                class="w-full aspect-[16/10] object-cover border-b border-outline-variant/30"
+                                onclick="window.location.href='/listing/{{listing.mls_number}}'"
+                            />
+                            {% endif %}
+                            {% endwith %}             
 
                                 <div class="p-5 flex flex-col gap-3">
                                     <div class="flex items-center justify-between gap-2">
@@ -478,7 +526,7 @@
                                         </span>
                                         {% if listing.list_price %}
                                         <span class="font-headline-sm text-headline-sm text-on-surface">
-                                            ${{ listing.list_price|floatformat:0 }}
+                                            ${{ listing.list_price|floatformat:0|intcomma }}
                                         </span>
                                         {% endif %}
                                     </div>
@@ -488,7 +536,7 @@
                                             {{ listing.street_number|default:"" }} {{ listing.street_name|default:"" }}
                                         </h3>
                                         <p class="font-body-sm text-body-sm text-on-surface-variant">
-                                            {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{{ listing.city|default:"Brownsville" }}, TX
+                                            {{ listing.city|default:"BROWNSVILLE" }}, TX
                                         </p>
                                     </div>
 
@@ -545,58 +593,6 @@
                             No active commercial listings available at this time.
                         </p>
                         {% endfor %}
-                    </div>
-                </section>
-
-                <section class="flex flex-col items-center gap-3 w-full">
-                    <span class="font-label-sm text-label-lg uppercase tracking-[0.2em] text-on-surface-variant/80">
-                        Meet the Team
-                    </span>
-                    
-                    <div class="grid grid-cols-2 gap-3 w-full">
-                        <div class="overflow-hidden rounded-lg border border-outline-variant/40">
-                            
-                            <img 
-                                src="/static/nic.jpg" 
-                                alt="Nicolas Rodriguez, Realtor, Commercial Real Estate & Land Specialist" 
-                                class="w-full aspect-[3/4] object-cover"
-                            />
-                            
-                            <div class="flex flex-col items-center gap-3 w-full"  style="padding:10px">
-                                <a
-                                    class="font-body-md text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-                                    href="mailto:nic_rdz_01@hotmail.com"
-                                    >Nicolas Rodriguez</a
-                                > Commercial Real Estate &amp; Land Specialist
-                                <a
-                                    class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-secondary transition-colors duration-200"
-                                    href="tel:9565610377"
-                                    >(956) 561-0377</a
-                                >
-                            </div>
-                        </div>
-                        
-                        <div class="overflow-hidden rounded-lg border border-outline-variant/40">
-                            
-                            <img 
-                                src="/static/luis.jpg" 
-                                alt="Luis Sanchez, Real Estate Sales Associate" 
-                                class="w-full aspect-[3/4] object-cover"
-                            />
-                            
-                            <div class="flex flex-col items-center gap-3 w-full"  style="padding:10px">
-                                <a
-                                    class="font-body-md text-headline-sm text-on-surface-variant hover:text-on-surface transition-colors duration-200"
-                                    href="mailto:luis.r.sanchez215@gmail.com"
-                                    >Luis Sanchez</a
-                                > Real Estate Sales Associate
-                                <a
-                                    class="font-headline-sm text-headline-sm text-on-surface tracking-tight hover:text-secondary transition-colors duration-200"
-                                    href="tel:9562431036"
-                                    >(956) 243-1036</a
-                                >
-                            </div>
-                        </div>
                     </div>
                 </section>
 

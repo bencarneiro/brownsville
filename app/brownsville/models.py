@@ -50,7 +50,14 @@ class Listing(models.Model):
     middle_school = models.CharField(max_length=150, blank=True, null=True)
     high_school = models.CharField(max_length=150, blank=True, null=True)
     virtual_tour_video = models.URLField(max_length=500, blank=True, null=True)
-
+    
+    @property
+    def highlight_photo(self):
+        return (
+            self.listingphoto_set.filter(is_highlight=True).first()
+            or self.listingphoto_set.first()
+        )
+        
     def __str__(self):
         return f"MLS #{self.mls_number} - {self.street_number} {self.street_name}, {self.city}"
 
@@ -61,6 +68,7 @@ class ListingPhoto(models.Model):
     )
     path = models.CharField(max_length=500)
     slug = models.CharField(max_length=100, null=True, blank=True)
+    is_highlight = models.BooleanField(default=False, null=False, blank=True)
 
     def __str__(self):
         return f"Photo for MLS #{self.listing.mls_number}: {self.path}"

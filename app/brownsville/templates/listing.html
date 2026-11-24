@@ -1,3 +1,4 @@
+{% load humanize %}
 <!doctype html>
 
 <html lang="en">
@@ -121,16 +122,28 @@
 
                     {% if listing.city or listing.subdivision %}
                     <p class="font-body-md text-body-md text-on-surface-variant">
-                        {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{% if listing.city %}{{ listing.city }}, TX{% endif %}
+                        {% if listing.city %}{{ listing.city }}, TX{% endif %}
                     </p>
                     {% endif %}
 
-                    {% if listing.list_price != None %}
+                    {% if listing.list_price != None and listing.list_price != 0 %}
                     <div class="font-headline-md text-headline-md text-on-surface pt-1">
-                        ${{ listing.list_price|floatformat:0 }}
+                        ${{ listing.list_price|floatformat:0|intcomma  }}
                     </div>
                     {% endif %}
                 </header>
+
+                {% with photo=listing.highlight_photo %}
+                {% if photo and photo.slug %}
+                <section class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest w-full">
+                    <img
+                        src="/static/{{ photo.slug }}"
+                        alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}"
+                        class="w-full object-cover"
+                    />
+                </section>
+                {% endif %}
+                {% endwith %}
 
                 <!-- Property Details -->
                 <section class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest p-5 flex flex-col gap-3">
@@ -147,7 +160,7 @@
                         {% if listing.list_price != None %}
                         <div class="py-2.5 flex justify-between items-baseline gap-4">
                             <dt class="font-label-md text-label-md uppercase text-on-surface-variant">List Price</dt>
-                            <dd class="text-on-surface text-right font-medium">${{ listing.list_price|floatformat:0 }}</dd>
+                            <dd class="text-on-surface text-right font-medium">${{ listing.list_price|floatformat:0|intcomma  }}</dd>
                         </div>
                         {% endif %}
 
@@ -409,6 +422,9 @@
                 </section>
                 {% endif %}
 
+                <h3 class="font-display-lg text-display-lg-mobile md:text-display-lg tracking-tight font-normal text-on-surface" >
+                    Photo Gallery
+                </h3>
                 <!-- Photos -->
                 {% if listing.listingphoto_set.all %}
                 <section class="flex flex-col gap-3 w-full">
