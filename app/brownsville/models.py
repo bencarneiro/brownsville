@@ -1,5 +1,6 @@
 from django.db import models
 from urllib.parse import quote_plus
+import re
 
 class Agent(models.Model):
     name = models.CharField(max_length=255)
@@ -8,6 +9,10 @@ class Agent(models.Model):
     license_number = models.CharField(max_length=100, blank=True, null=True)
     photo = models.CharField(max_length=100, blank=True, null=True)
     mls_id = models.CharField(max_length=100, unique=True)
+
+    @property
+    def phone_numeric(self) -> str:
+        return re.sub(r"\D", "", self.phone or "")
 
     def __str__(self):
         return f"{self.name} ({self.mls_id})"

@@ -405,7 +405,7 @@
                             {{ listing.agent.name }}
                         </span>
                         {% if listing.agent.phone %}
-                        <a href="tel:{{ listing.agent.phone }}" class="text-body-sm text-on-surface-variant hover:text-secondary">
+                        <a href="tel:{{ listing.agent.phone_numeric }}" class="text-body-sm text-on-surface-variant hover:text-secondary">
                             {{ listing.agent.phone }}
                         </a>
                         {% endif %}
