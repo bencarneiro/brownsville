@@ -1,0 +1,439 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <title>{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }} | Brownsville Real Estate</title>
+        <meta charset="utf-8" />
+        <meta
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+            name="viewport"
+        />
+        <meta content="mobile_blank" name="shell-type" />
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&amp;display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            @layer base {
+                html,
+                body {
+                    width: 100vw;
+                    margin: 0;
+                    padding: 0;
+                }
+                body {
+                    overscroll-behavior: none;
+                }
+                .pb-safe {
+                    padding-bottom: env(safe-area-inset-bottom, 0px);
+                }
+                .pt-safe {
+                    padding-top: env(safe-area-inset-top, 0px);
+                }
+                main > :first-child {
+                    margin-top: 0 !important;
+                }
+                main > :last-child {
+                    margin-bottom: 0 !important;
+                }
+            }
+            ::-webkit-scrollbar {
+                display: none;
+            }
+        </style>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "outline-variant": "#c8c5cb",
+                            background: "#faf9f6",
+                            secondary: "#77592f",
+                            primary: "#000000",
+                            "on-surface": "#1a1c1a",
+                            "surface-container-lowest": "#ffffff",
+                            "surface-container-low": "#f4f3f1",
+                            "on-surface-variant": "#47464b",
+                            surface: "#faf9f6",
+                            outline: "#77767b",
+                        },
+                        fontFamily: {
+                            "label-lg": ["Plus Jakarta Sans"],
+                            "label-md": ["Plus Jakarta Sans"],
+                            "label-sm": ["Plus Jakarta Sans"],
+                            "body-lg": ["Plus Jakarta Sans"],
+                            "body-md": ["Plus Jakarta Sans"],
+                            "body-sm": ["Plus Jakarta Sans"],
+                            "display-xl": ["Playfair Display"],
+                            "display-lg": ["Playfair Display"],
+                            "headline-lg": ["Playfair Display"],
+                            "headline-md": ["Playfair Display"],
+                            "headline-sm": ["Playfair Display"],
+                        },
+                        fontSize: {
+                            "label-lg": ["13px", { lineHeight: "18px", letterSpacing: "0.08em", fontWeight: "600" }],
+                            "label-md": ["11px", { lineHeight: "16px", letterSpacing: "0.12em", fontWeight: "600" }],
+                            "label-sm": ["10px", { lineHeight: "14px", letterSpacing: "0.14em", fontWeight: "600" }],
+                            "body-sm": ["13px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "400" }],
+                            "body-md": ["15px", { lineHeight: "26px", letterSpacing: "0em", fontWeight: "400" }],
+                            "headline-sm": ["20px", { lineHeight: "28px", letterSpacing: "0em", fontWeight: "600" }],
+                            "headline-md": ["26px", { lineHeight: "34px", letterSpacing: "0em", fontWeight: "500" }],
+                            "display-lg": ["44px", { lineHeight: "54px", letterSpacing: "-0.015em", fontWeight: "400" }],
+                            "display-xl-mobile": ["38px", { lineHeight: "46px", letterSpacing: "-0.01em", fontWeight: "400" }],
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            body {
+                min-height: max(884px, 100dvh);
+            }
+        </style>
+    </head>
+    <body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen pt-safe pb-safe">
+        <main class="flex flex-col relative w-full bg-surface min-h-screen">
+            <div class="flex flex-col w-full max-w-xl mx-auto px-6 py-12 gap-8 text-on-surface">
+
+                <!-- Back Link -->
+                <div>
+                    <a
+                        href="/"
+                        class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary hover:text-on-surface transition-colors"
+                    >
+                        ← Back to All Properties
+                    </a>
+                </div>
+
+                <!-- Header -->
+                <header class="flex flex-col gap-2">
+                    <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
+                        {% if listing.property_type %}{{ listing.property_type }} • {% endif %}MLS #{{ listing.mls_number }}
+                    </span>
+
+                    <h1 class="font-display-xl text-display-xl-mobile md:text-display-lg tracking-tight font-normal text-on-surface">
+                        {{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }}
+                    </h1>
+
+                    {% if listing.city or listing.subdivision %}
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        {% if listing.subdivision %}{{ listing.subdivision }} • {% endif %}{% if listing.city %}{{ listing.city }}, TX{% endif %}
+                    </p>
+                    {% endif %}
+
+                    {% if listing.list_price != None %}
+                    <div class="font-headline-md text-headline-md text-on-surface pt-1">
+                        ${{ listing.list_price|floatformat:0 }}
+                    </div>
+                    {% endif %}
+                </header>
+
+                <!-- Property Details -->
+                <section class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest p-5 flex flex-col gap-3">
+                    <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
+                        Property Details
+                    </span>
+
+                    <dl class="divide-y divide-outline-variant/30 text-body-sm">
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">MLS Number</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.mls_number }}</dd>
+                        </div>
+
+                        {% if listing.list_price != None %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">List Price</dt>
+                            <dd class="text-on-surface text-right font-medium">${{ listing.list_price|floatformat:0 }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.property_type %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Property Type</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.property_type }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.present_use %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Present Use</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.present_use }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.suitable_use %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Suitable Use</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.suitable_use }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.street_number %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Street #</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.street_number }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.street_name %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Street Name</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.street_name }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.street_type %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Street Type</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.street_type }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.subdivision %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Subdivision</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.subdivision }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.city %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">City</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.city }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.area %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Area</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.area }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.year_built %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Year Built</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.year_built }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.bedrooms %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Bedrooms</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.bedrooms }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.baths %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Baths</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.baths|floatformat:"-1" }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.half_baths %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">1/2 Baths</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.half_baths }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.stories %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Stories</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.stories }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.estimated_living_sqft %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Living SqFt</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.estimated_living_sqft }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.apx_lot_sqft %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Lot SqFt</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.apx_lot_sqft }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.apx_acreage %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Acreage</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.apx_acreage|floatformat:"-4" }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.parking %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Parking</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.parking }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.parking_spaces %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Parking Spaces</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.parking_spaces }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.access %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Access</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.access }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.topography %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Topography</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.topography }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.grounds %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Grounds</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.grounds }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.site_features %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Site Features</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.site_features }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.water %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Water</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.water }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.sewer %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Sewer</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.sewer }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.school_district %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">School District</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.school_district }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.elementary_school %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Elementary School</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.elementary_school }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.middle_school %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Middle School</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.middle_school }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.high_school %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">High School</dt>
+                            <dd class="text-on-surface text-right font-medium">{{ listing.high_school }}</dd>
+                        </div>
+                        {% endif %}
+
+                        {% if listing.virtual_tour_video %}
+                        <div class="py-2.5 flex justify-between items-baseline gap-4">
+                            <dt class="font-label-md text-label-md uppercase text-on-surface-variant">Virtual Tour</dt>
+                            <dd class="text-right">
+                                <a
+                                    href="{{ listing.virtual_tour_video }}"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="font-label-sm text-label-sm uppercase tracking-[0.14em] text-secondary hover:text-on-surface underline"
+                                >
+                                    Open Tour
+                                </a>
+                            </dd>
+                        </div>
+                        {% endif %}
+                    </dl>
+                </section>
+
+                <!-- Listing Agent -->
+                {% if listing.agent %}
+                <section class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest p-5 flex items-center gap-4">
+                    {% if listing.agent.photo %}
+                    <img
+                        src="/static/{{ listing.agent.photo }}"
+                        alt="{{ listing.agent.name }}"
+                        class="w-16 h-20 rounded object-cover border border-outline-variant/40 shrink-0"
+                    />
+                    {% endif %}
+
+                    <div class="flex flex-col gap-1">
+                        <span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary">
+                            Listing Agent
+                        </span>
+                        <span class="font-headline-sm text-headline-sm text-on-surface">
+                            {{ listing.agent.name }}
+                        </span>
+                        {% if listing.agent.phone %}
+                        <a href="tel:{{ listing.agent.phone }}" class="text-body-sm text-on-surface-variant hover:text-secondary">
+                            {{ listing.agent.phone }}
+                        </a>
+                        {% endif %}
+                        {% if listing.agent.email %}
+                        <a href="mailto:{{ listing.agent.email }}" class="text-body-sm text-on-surface-variant hover:text-secondary">
+                            {{ listing.agent.email }}
+                        </a>
+                        {% endif %}
+                        {% if listing.agent.license_number %}
+                        <span class="font-label-sm text-label-sm uppercase text-on-surface-variant/70">
+                            License #{{ listing.agent.license_number }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </section>
+                {% endif %}
+
+                <!-- Photos -->
+                {% if listing.listingphoto_set.all %}
+                <section class="flex flex-col gap-3 w-full">
+                    {% for photo in listing.listingphoto_set.all %}
+                        {% if photo.slug %}
+                        <div class="overflow-hidden rounded-lg border border-outline-variant/40 bg-surface-container-lowest">
+                            <img
+                                src="/static/{{ photo.slug }}"
+                                alt="{{ listing.street_number|default:'' }} {{ listing.street_name|default:'' }} - Photo {{ forloop.counter }}"
+                                class="w-full object-cover"
+                            />
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </section>
+                {% endif %}
+
+                <!-- Footer -->
+                <footer class="pt-4 flex flex-col items-center gap-2 text-center text-on-surface-variant/70 font-label-sm text-label-sm uppercase tracking-wider">
+                    <div class="flex items-center gap-3">
+                        <span>Equal Housing Opportunity</span><span>•</span><span>MLS Registered</span><span>•</span><span>Texas Stars Realty Group, LLC</span>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+    </body>
+</html>

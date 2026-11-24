@@ -60,7 +60,7 @@ class ListingPhoto(models.Model):
         on_delete=models.CASCADE
     )
     path = models.CharField(max_length=500)
-    # slug = Models.chargield(max_length=100)
+    slug = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return f"Photo for MLS #{self.listing.mls_number}: {self.path}"
